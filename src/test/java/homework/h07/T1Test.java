@@ -56,7 +56,7 @@ class T1Test {
 
   @Test
   void returnsFizzBuzzOnlyForMultiplesOfFifteen() {
-    assertThat(solution.fizzBuzz(30)).containsOnlyOnce("FizzBuzz", "FizzBuzz").hasSize(30);
+    assertThat(solution.fizzBuzz(30)).filteredOn("FizzBuzz"::equals).hasSize(2);
   }
 
   @Test

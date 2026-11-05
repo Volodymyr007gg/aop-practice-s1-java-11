@@ -2,6 +2,7 @@ package homework.h09;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 class T2Test {
@@ -9,58 +10,55 @@ class T2Test {
   private final T2 solution = new T2();
 
   @Test
-  void returnsExpectedListForExample1() {
-    assertThat(solution.kidsWithCandies(new int[] {2, 3, 5, 1, 3}, 3))
-        .containsExactly(true, true, true, false, true);
+  void returnsFourForExample1() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 2, 3, 1, 1, 3})).isEqualTo(4);
   }
 
   @Test
-  void returnsExpectedListForExample2() {
-    assertThat(solution.kidsWithCandies(new int[] {4, 2, 1, 1, 2}, 1))
-        .containsExactly(true, false, false, false, false);
+  void returnsSixForExample2() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 1, 1, 1})).isEqualTo(6);
   }
 
   @Test
-  void returnsExpectedListForExample3() {
-    assertThat(solution.kidsWithCandies(new int[] {12, 1, 12}, 10))
-        .containsExactly(true, false, true);
+  void returnsZeroForExample3() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 2, 3})).isZero();
   }
 
   @Test
-  void returnsTrueForMinimumLength() {
-    assertThat(solution.kidsWithCandies(new int[] {1, 1}, 1)).containsExactly(true, true);
+  void returnsZeroForSingleElement() {
+    assertThat(solution.numIdenticalPairs(new int[] {1})).isZero();
   }
 
   @Test
-  void returnsTrueWhenSumEqualsMaximum() {
-    assertThat(solution.kidsWithCandies(new int[] {3, 5}, 2)).containsExactly(true, true);
+  void returnsOneForTwoEqualElements() {
+    assertThat(solution.numIdenticalPairs(new int[] {5, 5})).isEqualTo(1);
   }
 
   @Test
-  void returnsFalseWhenSumIsLessThanMaximum() {
-    assertThat(solution.kidsWithCandies(new int[] {3, 5}, 1)).containsExactly(false, true);
+  void returnsZeroForTwoDifferentElements() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 2})).isZero();
   }
 
   @Test
-  void returnsOnlyMaximumHolderForMinimumExtraCandies() {
-    assertThat(solution.kidsWithCandies(new int[] {1, 5, 3}, 1))
-        .containsExactly(false, true, false);
+  void countsPairsOfNonAdjacentEqualElements() {
+    assertThat(solution.numIdenticalPairs(new int[] {7, 1, 7})).isEqualTo(1);
   }
 
   @Test
-  void returnsAllTrueForMaximumExtraCandies() {
-    assertThat(solution.kidsWithCandies(new int[] {1, 100, 50}, 50))
-        .containsExactly(true, true, true);
+  void countsPairsForSeveralGroups() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 1, 2, 2, 2})).isEqualTo(4);
   }
 
   @Test
-  void returnsAllTrueWhenAllKidsHaveEqualCandies() {
-    assertThat(solution.kidsWithCandies(new int[] {4, 4, 4}, 1)).containsExactly(true, true, true);
+  void handlesMinimumAndMaximumValues() {
+    assertThat(solution.numIdenticalPairs(new int[] {1, 100, 1, 100, 100})).isEqualTo(4);
   }
 
   @Test
-  void keepsOrderOfKids() {
-    assertThat(solution.kidsWithCandies(new int[] {5, 1, 5, 1}, 1))
-        .containsExactly(true, false, true, false);
+  void returnsAllPairsForMaximumLength() {
+    int[] nums = new int[100];
+    Arrays.fill(nums, 100);
+
+    assertThat(solution.numIdenticalPairs(nums)).isEqualTo(4_950);
   }
 }

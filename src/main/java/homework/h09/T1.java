@@ -1,24 +1,19 @@
 package homework.h09;
 
 // base
-// https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/
-public class T1 {}
+// https://leetcode.com/problems/number-of-good-pairs/
+@SuppressWarnings("unused")
+public class T1 {
 
-class Solution {
-  public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
-    int max = findMax(candies);
-    List<Boolean> result = new ArrayList<>();
-    for (int c : candies) {
-      result.add(c + extraCandies >= max);
+  public int numIdenticalPairs(int[] nums) {
+    int count = 0;
+    for (int i = 0; i < nums.length; i++) {
+      for (int j = i + 1; j < nums.length; j++) {
+        if (nums[i] == nums[j]) {
+          count++;
+        }
+      }
     }
-    return result;
-  }
-
-  private int findMax(int[] arr) {
-    int max = arr[0];
-    for (int x : arr) {
-      if (x > max) max = x;
-    }
-    return max;
+    return count;
   }
 }

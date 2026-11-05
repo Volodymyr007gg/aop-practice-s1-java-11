@@ -2,9 +2,9 @@ package homework.h09;
 
 // advanced
 // https://leetcode.com/problems/number-of-good-pairs/
-public class T2 {}
+@SuppressWarnings("unused")
+public class T2 {
 
-class Solution {
   public int numIdenticalPairs(int[] nums) {
     int count = 0;
     for (int i = 0; i < nums.length; i++) {
