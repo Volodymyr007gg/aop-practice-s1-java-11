@@ -10,55 +10,93 @@ class T2Test {
   private final T2 solution = new T2();
 
   @Test
-  void returnsFourForExample1() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 2, 3, 1, 1, 3})).isEqualTo(4);
+  void returnsExpectedForExample1() {
+    assertThat(solution.kidsWithCandies(new int[] {2, 3, 5, 1, 3}, 3))
+            .containsExactly(true, true, true, false, true);
   }
 
   @Test
-  void returnsSixForExample2() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 1, 1, 1})).isEqualTo(6);
+  void returnsExpectedForExample2() {
+    assertThat(solution.kidsWithCandies(new int[] {4, 2, 1, 1, 2}, 1))
+            .containsExactly(true, false, false, false, false);
   }
 
   @Test
-  void returnsZeroForExample3() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 2, 3})).isZero();
+  void returnsExpectedForExample3() {
+    assertThat(solution.kidsWithCandies(new int[] {12, 1, 12}, 10))
+            .containsExactly(true, false, true);
   }
 
   @Test
-  void returnsZeroForSingleElement() {
-    assertThat(solution.numIdenticalPairs(new int[] {1})).isZero();
+  void returnsTrueForSingleKid() {
+    assertThat(solution.kidsWithCandies(new int[] {5}, 1)).containsExactly(true);
   }
 
   @Test
-  void returnsOneForTwoEqualElements() {
-    assertThat(solution.numIdenticalPairs(new int[] {5, 5})).isEqualTo(1);
+  void returnsTrueForSingleKidWithMinimumValues() {
+    assertThat(solution.kidsWithCandies(new int[] {1}, 1)).containsExactly(true);
   }
 
   @Test
-  void returnsZeroForTwoDifferentElements() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 2})).isZero();
+  void returnsTrueForAllWhenAllEqual() {
+    assertThat(solution.kidsWithCandies(new int[] {3, 3, 3}, 1))
+            .containsExactly(true, true, true);
   }
 
   @Test
-  void countsPairsOfNonAdjacentEqualElements() {
-    assertThat(solution.numIdenticalPairs(new int[] {7, 1, 7})).isEqualTo(1);
+  void returnsTrueOnlyForMaxWhenExtraCandiesIsMinimum() {
+    assertThat(solution.kidsWithCandies(new int[] {1, 2, 3}, 1))
+            .containsExactly(false, true, true);
   }
 
   @Test
-  void countsPairsForSeveralGroups() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 1, 2, 2, 2})).isEqualTo(4);
+  void returnsTrueWhenSumExactlyEqualsMax() {
+    assertThat(solution.kidsWithCandies(new int[] {2, 5}, 3)).containsExactly(true, true);
   }
 
   @Test
-  void handlesMinimumAndMaximumValues() {
-    assertThat(solution.numIdenticalPairs(new int[] {1, 100, 1, 100, 100})).isEqualTo(4);
+  void returnsFalseWhenSumIsOneLessThanMax() {
+    assertThat(solution.kidsWithCandies(new int[] {2, 5}, 2)).containsExactly(false, true);
   }
 
   @Test
-  void returnsAllPairsForMaximumLength() {
-    int[] nums = new int[100];
-    Arrays.fill(nums, 100);
+  void returnsTrueForAllWhenExtraCandiesIsMaximum() {
+    assertThat(solution.kidsWithCandies(new int[] {1, 50, 100}, 50))
+            .containsExactly(true, true, true);
+  }
 
-    assertThat(solution.numIdenticalPairs(nums)).isEqualTo(4_950);
+  @Test
+  void keepsOriginalOrder() {
+    assertThat(solution.kidsWithCandies(new int[] {10, 1, 10, 1}, 5))
+            .containsExactly(true, false, true, false);
+  }
+
+  @Test
+  void returnsListOfSameSizeAsInput() {
+    int[] candies = new int[100];
+    Arrays.fill(candies, 100);
+
+    assertThat(solution.kidsWithCandies(candies, 50)).hasSize(100).containsOnly(true);
+  }
+
+  @Test
+  void handlesMaximumLengthWithSingleLeader() {
+    int[] candies = new int[100];
+    Arrays.fill(candies, 1);
+    candies[99] = 100;
+
+    assertThat(solution.kidsWithCandies(candies, 1))
+            .hasSize(100)
+            .endsWith(true)
+            .containsOnlyOnce(true);
+  }
+
+  @Test
+  void returnsNewListOnEachCall() {
+    int[] candies = {1, 2, 3};
+
+    assertThat(solution.kidsWithCandies(candies, 1))
+            .isNotSameAs(solution.kidsWithCandies(candies, 1))
+            .isEqualTo(Arrays.asList(false, true, true));
   }
 }
